@@ -15,7 +15,7 @@ echo "=== 训练开始于 $(date) ===" | tee -a logs/${job_name}
 # --init_model ${MODEL_PATH} \
 
 # 执行训练脚本，并在关键步骤添加时间戳
-CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=2 main_xclip.py \
+CUDA_VISIBLE_DEVICES=0,1 python -m torchrun. --nproc_per_node=2 main_xclip.py \
   --do_train \
   --do_eval \
   --cache_dir ${MODEL_PATH} \
