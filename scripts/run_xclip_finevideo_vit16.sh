@@ -9,13 +9,15 @@ OUTPUT_PATH=ckpts/xclip_finevideo_vit16_${TIMESTAMP}
 MODEL_PATH=/sshfs/pretrains/openai/clip-vit-base-patch16
 job_name=xclip_finevideo_vit16_${TIMESTAMP}  # 在job_name中加入时间戳
 
+# 创建日志目录（如不存在）
+mkdir -p logs
+
 # 记录开始时间
 echo "=== 训练开始于 $(date) ===" | tee -a logs/${job_name}
 
-# --init_model ${MODEL_PATH} \
-
-# 执行训练脚本，并在关键步骤添加时间戳
-CUDA_VISIBLE_DEVICES=0,1,2,3 python -m torch.distributed.launch --nproc_per_node=4 main_xclip.py \
+# 启动单卡训练
+CUDA_VISIBLE_DEVICES=0 \
+python main_xclip.py \
   --do_train \
   --do_eval \
   --cache_dir ${MODEL_PATH} \
